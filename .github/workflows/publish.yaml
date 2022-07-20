@@ -22,11 +22,17 @@ jobs:
         with:
           version: 7
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Build
-        run: cd packages/movingbox && pnpm build
+        run: pnpm --filter movingbox build
 
       - name: Publish package on NPM 📦
-        run: npm publish
+        run: |
+             cd packages/movingbox 
+             echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+             npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
