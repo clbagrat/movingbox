@@ -23,7 +23,7 @@ jobs:
           version: 7
 
       - name: Publish package on NPM 📦
-        run: npm publish
+        run: cd package/movingbox && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
