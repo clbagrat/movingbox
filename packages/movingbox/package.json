@@ -1,6 +1,6 @@
 {
   "name": "movingbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "./dist/movingbox.cjs.js",
   "module": "./dist/movingbox.es.js",
