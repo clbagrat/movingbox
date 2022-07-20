@@ -1,0 +1,25 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flex.super-gap {
+  gap: 30px;
+}
+
+.flex.super-gap>* {
+  width: 150px;
+}
+
+.flex.row {
+  flex-direction: row;
+}
