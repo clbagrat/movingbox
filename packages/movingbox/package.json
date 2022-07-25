@@ -1,10 +1,11 @@
 {
   "name": "movingbox",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "main": "./dist/movingbox.cjs.js",
   "module": "./dist/movingbox.es.js",
   "types": "./dist/index.d.ts",
+  "files": ["./dist"],
   "scripts": {
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build",
