@@ -23,3 +23,9 @@
 .flex.row {
   flex-direction: row;
 }
+
+.columns {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 300px 300px;
+}
