@@ -1,4 +1,4 @@
-import { createContext, useCallback, useRef } from "react";
+import React, { createContext, useCallback } from "react";
 import { Rect } from "./MovingBox";
 
 type Rects = Record<string, Rect>;
@@ -19,11 +19,21 @@ export const MovingBoxContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const rects = useRef<Rects>({})
+  const rects = React.useRef<Rects>({});
+  const keysToClean = React.useRef<string[]>([]);
 
   const update = useCallback(
     (key: string, rect: Rect) => {
+      if (rects.current[key]) return;
       rects.current[key] = rect;
+      keysToClean.current.push(key);
+      requestAnimationFrame(() => {
+        keysToClean.current.forEach(k => {
+          delete rects.current[k]
+        });
+
+        keysToClean.current.length = 0;
+      })
     },
     [rects]
   );

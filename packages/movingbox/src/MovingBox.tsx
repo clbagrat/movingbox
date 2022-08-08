@@ -87,11 +87,22 @@ export class MovingBox extends Component<MovingBoxProps> {
   }
 
   componentDidMount() {
+    this.log("mount")
     if (this.props.animKey && this.context!.rects[this.props.animKey]) {
       const prevRect = this.context!.rects[this.props.animKey];
-      const { x, y, width, height } = this.box!.getBoundingClientRect();
+      const rect = this.box!.getBoundingClientRect();
+      const { x, y, width, height } = rect;
+      const newRect = this.context!.rects[`${this.props.animKey}--new`] || {
+        x,
+        y,
+        width,
+        height,
+      };
 
-      this.playFromPrevRect(prevRect, { x, y, width, height });
+      this.context.update(`${this.props.animKey}--new`, newRect);
+
+      this.log('didMount', prevRect, newRect)
+      this.playFromPrevRect(prevRect, newRect);
     } else {
       if (!this.props.from && !this.props.fromFade) {
         return;
@@ -105,6 +116,7 @@ export class MovingBox extends Component<MovingBoxProps> {
     from: From = { widthRatio: 1, heightRatio: 1, xDelta: 0, yDelta: 0 },
     isFade: boolean
   ) {
+    this.log("animation start", from);
     const { widthRatio, heightRatio, xDelta, yDelta } = from;
 
     const newState = "scale(1, 1) translate(0, 0)";
@@ -128,9 +140,9 @@ export class MovingBox extends Component<MovingBoxProps> {
   }
 
   componentWillUnmount() {
-    if (!this.props.animKey) return; 
-
+    if (!this.props.animKey) return;
     const { x, y, width, height } = this.box!.getBoundingClientRect();
+    this.log("unmount", { x, y, width, height });
     this.context.update(this.props.animKey, {
       x,
       y,
@@ -141,18 +153,10 @@ export class MovingBox extends Component<MovingBoxProps> {
 
   render() {
     const ComponentName = this.props.as ?? "div";
-    const {
-      className = "",
-      from,
-      fromFade,
-      debugName,
-      animKey,
-      ...rest
-    } = this.props;
+    const { from, fromFade, debugName, animKey, ...rest } = this.props;
 
     return (
       <ComponentName
-        className={`moving-box ${className}`}
         ref={(el: HTMLElement | null) => {
           this.box = el;
         }}

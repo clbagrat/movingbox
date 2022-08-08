@@ -22,12 +22,14 @@ function App() {
       <div className="App">
         <div className="columns">
           <div>
-            <MovingBox as="h1">Left</MovingBox>
+            <MovingBox as="span" debugName="left">Left</MovingBox>
+            <MovingBox as="h1" debugName="left">Left</MovingBox>
             <div>
               {left.length &&
                 left.map(({ id }) => (
                   <Square
                     key={id}
+                    debugName={id === 1 ? "targetBox": undefined}
                     animKey={id}
                     color="red"
                     onClick={() => {
