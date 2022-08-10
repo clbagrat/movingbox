@@ -1,11 +1,17 @@
 import React, { createContext, useCallback } from "react";
-import { Rect } from "./MovingBox";
+
+export type Rect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 type Rects = Record<string, Rect>;
 
-type ContextValues = {
+export type ContextValues = {
   update: (key: string, rect: Rect) => void;
-  rects: Rects 
+  rects: Rects
 };
 
 export const MovingBoxContext = createContext<ContextValues>({
