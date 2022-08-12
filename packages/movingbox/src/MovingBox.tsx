@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import { MovingBoxContext } from "./MovingBoxContext";
+import { ContextValues, MovingBoxContext, Rect } from "./MovingBoxContext";
 
 type Option<T> = T | null;
-
-export type Rect = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
 
 type From = {
   xDelta: number;
@@ -28,7 +21,7 @@ type MovingBoxProps = {
 
 export class MovingBox extends Component<MovingBoxProps> {
   static contextType = MovingBoxContext;
-  declare context: React.ContextType<typeof MovingBoxContext>;
+  declare context: ContextValues;
 
   box: Option<HTMLElement> = null;
 
@@ -42,8 +35,11 @@ export class MovingBox extends Component<MovingBoxProps> {
     console.log(this.props.debugName, ...messages);
   }
 
-  getSnapshotBeforeUpdate(prevProps: MovingBoxProps, prevState: unknown): Rect {
-    const { x, y, width, height } = this.box!.getBoundingClientRect();
+  getSnapshotBeforeUpdate(prevProps: MovingBoxProps, prevState: unknown): Option<Rect> {
+    if (!this.box) {
+      return null;
+    }
+    const { x, y, width, height } = this.box.getBoundingClientRect();
 
     this.log("snapshot", { x, y, width, height });
 
@@ -58,9 +54,13 @@ export class MovingBox extends Component<MovingBoxProps> {
   componentDidUpdate(
     _prevProps: MovingBoxProps,
     _prevState: unknown,
-    oldRect: Rect
+    oldRect: ReturnType<MovingBox['getSnapshotBeforeUpdate']>
   ) {
-    const { x, y, width, height } = this.box!.getBoundingClientRect();
+    if (!this.box || !oldRect) {
+      console.warn("componentDidUpdate invokes without defined box");
+      return;
+    }
+    const { x, y, width, height } = this.box.getBoundingClientRect();
     const newRect = { x, y, width, height };
 
     this.log("update", { x, y, width, height });
@@ -88,11 +88,11 @@ export class MovingBox extends Component<MovingBoxProps> {
 
   componentDidMount() {
     this.log("mount")
-    if (this.props.animKey && this.context!.rects[this.props.animKey]) {
-      const prevRect = this.context!.rects[this.props.animKey];
-      const rect = this.box!.getBoundingClientRect();
+    if (this.props.animKey && this.context.rects[this.props.animKey] && this.box) {
+      const prevRect = this.context.rects[this.props.animKey];
+      const rect = this.box.getBoundingClientRect();
       const { x, y, width, height } = rect;
-      const newRect = this.context!.rects[`${this.props.animKey}--new`] || {
+      const newRect = this.context.rects[`${this.props.animKey}--new`] || {
         x,
         y,
         width,
@@ -116,6 +116,10 @@ export class MovingBox extends Component<MovingBoxProps> {
     from: From = { widthRatio: 1, heightRatio: 1, xDelta: 0, yDelta: 0 },
     isFade: boolean
   ) {
+    if (!this.box) {
+      console.warn('Trying to play animation without defined box');
+      return;
+    }
     this.log("animation start", from);
     const { widthRatio, heightRatio, xDelta, yDelta } = from;
 
@@ -124,24 +128,28 @@ export class MovingBox extends Component<MovingBoxProps> {
       xDelta / widthRatio
     }px, ${yDelta / heightRatio}px) `;
 
-    this.box!.style.transform = oldState;
-    this.box!.style.transformOrigin = "top left";
-    this.box!.style.transition = "";
+    this.box.style.transform = oldState;
+    this.box.style.transformOrigin = "top left";
+    this.box.style.transition = "";
 
     if (isFade) {
-      this.box!.style.opacity = "0";
+      this.box.style.opacity = "0";
     }
 
     window.requestAnimationFrame(() => {
-      this.box!.style.transform = newState;
-      this.box!.style.opacity = "1";
-      this.box!.style.transition = "transform 0.2s linear, opacity 0.2s linear";
+      if (!this.box) {
+        console.warn('Somehow box is not available in new animation frame after running playAnimation function');
+        return;
+      }
+      this.box.style.transform = newState;
+      this.box.style.opacity = "1";
+      this.box.style.transition = "transform 0.2s linear, opacity 0.2s linear";
     });
   }
 
   componentWillUnmount() {
-    if (!this.props.animKey) return;
-    const { x, y, width, height } = this.box!.getBoundingClientRect();
+    if (!this.props.animKey || !this.box) return;
+    const { x, y, width, height } = this.box.getBoundingClientRect();
     this.log("unmount", { x, y, width, height });
     this.context.update(this.props.animKey, {
       x,
