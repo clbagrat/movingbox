@@ -3,12 +3,12 @@ import { ContextValues, MovingBoxContext, Rect } from "./MovingBoxContext";
 
 type Option<T> = T | null;
 
-type From = {
+type From = Partial<{
   xDelta: number;
   yDelta: number;
   widthRatio: number;
   heightRatio: number;
-}
+}>
 
 type MovingBoxProps = {
   children?: React.ReactNode;
@@ -108,26 +108,27 @@ export class MovingBox extends Component<MovingBoxProps> {
         return;
       }
 
+      this.log('didMount from', this.props.from, this.props.fromFade);
       this.playAnimation(this.props.from, this.props.fromFade ?? false);
     }
   }
 
   playAnimation(
-    from: From = { widthRatio: 1, heightRatio: 1, xDelta: 0, yDelta: 0 },
+    from: From = {},
     isFade: boolean
   ) {
     if (!this.box) {
       console.warn('Trying to play animation without defined box');
       return;
     }
-    this.log("animation start", from);
-    const { widthRatio, heightRatio, xDelta, yDelta } = from;
+    const { widthRatio = 1, heightRatio = 1, xDelta = 0, yDelta = 0 } = from;
 
     const newState = "scale(1, 1) translate(0, 0)";
     const oldState = `scale(${widthRatio}, ${heightRatio}) translate(${
-      xDelta / widthRatio
-    }px, ${yDelta / heightRatio}px) `;
+      xDelta / Math.max(widthRatio, 0.0001)
+    }px, ${yDelta / Math.max(widthRatio, 0.0001)}px) `;
 
+    this.log("animation start", { widthRatio, heightRatio, xDelta, yDelta }, oldState);
     this.box.style.transform = oldState;
     this.box.style.transformOrigin = "top left";
     this.box.style.transition = "";

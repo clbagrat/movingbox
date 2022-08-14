@@ -1,0 +1,18 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack.reverse {
+  flex-direction: column-reverse;
+}
+
+.stack-s {
+    gap: var(--size-space-s);
+}
+.stack-m {
+    gap: var(--size-space-m);
+}
+.stack-l {
+    gap: var(--size-space-l);
+}

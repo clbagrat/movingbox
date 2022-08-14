@@ -1,10 +1,11 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 
+:root {
+  --size-space-s: 10px;
+  --size-space-m: 20px;
+  --size-space-l: 30px;
+  --color-border-primary: red;
+  --color-background-primary: green;
+}
 
 .flex {
   display: flex;
