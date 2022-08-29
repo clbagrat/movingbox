@@ -3,8 +3,8 @@
   --size-space-s: 10px;
   --size-space-m: 20px;
   --size-space-l: 30px;
-  --color-border-primary: red;
-  --color-background-primary: green;
+  --color-border-primary: #b793ff;
+  --color-background-primary: #7b58c4;
 }
 
 .flex {

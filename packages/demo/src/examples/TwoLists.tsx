@@ -28,7 +28,7 @@ export const TwoLists = () => {
                 key={id}
                 debugName={id === 1 ? "targetBox" : undefined}
                 animKey={id}
-                color="red"
+                color="#362fba"
                 onClick={() => {
                   let f = left.find((o) => o.id === id);
                   setLeft(left.filter((o) => o !== f));
@@ -49,7 +49,7 @@ export const TwoLists = () => {
             <Square
               animKey={id}
               key={id}
-              color="green"
+              color="#F34C3F"
               onClick={() => {
                 let f = right.find((o) => o.id === id);
                 setRight(right.filter((o) => o !== f));

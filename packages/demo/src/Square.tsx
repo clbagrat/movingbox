@@ -1,7 +1,7 @@
 import { MovingBox } from "movingbox";
 
 type SquareProps = {
-  color: "red" | "green"
+  color: "#F34C3F" | "#362fba"
 } & Record<string, any>;
 
 export const Square = ({ color, ...rest }: SquareProps) => {
@@ -14,7 +14,8 @@ export const Square = ({ color, ...rest }: SquareProps) => {
         minWidth: "50px",
         height: `100px`,
         background: color,
-        border: "1px solid white",
+        border: "1px solid #645959",
+        marginBottom: '10px'
       }}
     />
   );
