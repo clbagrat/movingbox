@@ -1,19 +1,18 @@
-import "./App.css";
-import { AddMove } from "./examples/AddMove";
-import { ButtonModal } from "./examples/ButtonModal";
-import { TwoLists } from "./examples/TwoLists";
+import { HashRouter } from "react-router-dom";
 import { SideBar, sidebarWidth } from "./navigation/sidebar/SideBar";
+import { AppRouter } from "./router/AppRouter";
+import "./App.css";
 
 function App() {
   return (
     <div>
       <div className="App">
-        <SideBar />
-        <div style={{ marginLeft: `${sidebarWidth + 1}%` }}>
-          <AddMove />
-          <ButtonModal />
-          <TwoLists />
-        </div>
+        <HashRouter>
+          <SideBar />
+          <div style={{ marginLeft: `${sidebarWidth + 1}%` }}>
+            <AppRouter />
+          </div>
+        </HashRouter>
       </div>
     </div>
   );

@@ -30,3 +30,7 @@
   gap: 40px;
   grid-template-columns: 300px 300px;
 }
+
+.inline-block {
+  display: inline-block;
+}
