@@ -10,7 +10,7 @@ export const ButtonModal = () => {
     }
 
     return (
-        <div>
+        <div className="inline-block">
             <MovingBox as="h1">
                 Button converted to a modal window
             </MovingBox>
