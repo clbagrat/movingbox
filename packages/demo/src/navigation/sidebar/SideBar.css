@@ -1,0 +1,12 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    border-right: 1px solid #454444;
+}
+
+.sidebar h3 {
+    margin: 0 2px;
+    padding: 12px 10px;
+    border-bottom: 1px solid #454444;
+}
