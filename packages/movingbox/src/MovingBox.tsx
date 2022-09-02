@@ -123,10 +123,11 @@ export class MovingBox extends Component<MovingBoxProps> {
     }
     const { widthRatio = 1, heightRatio = 1, xDelta = 0, yDelta = 0 } = from;
 
-    const newState = "scale(1, 1) translate(0, 0)";
-    const oldState = `scale(${widthRatio}, ${heightRatio}) translate(${
-      xDelta / Math.max(widthRatio, 0.0001)
-    }px, ${yDelta / Math.max(widthRatio, 0.0001)}px) `;
+    const newState = "translate(0, 0) scale(1, 1) ";
+    const oldState = `translate(${
+      xDelta
+    }px, ${yDelta }px) scale(${widthRatio}, ${heightRatio})`;
+    this.log(oldState, {xDelta, yDelta})
 
     this.log("animation start", { widthRatio, heightRatio, xDelta, yDelta }, oldState);
     this.box.style.transform = oldState;
