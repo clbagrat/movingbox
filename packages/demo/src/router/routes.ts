@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { AddMove } from "../examples/AddMove";
-import { ButtonModal } from "../examples/ButtonModal";
-import { TwoLists } from "../examples/TwoLists";
+import { AddMovePage } from "../pages/AddMovePage";
+import { ButtonModalPage } from "../pages/ButtonModalPage";
 import { Overview } from "../pages/Overview";
+import { TwoListsPage } from "../pages/TwoListsPage";
 
 interface Route {
     id: number,
@@ -22,18 +22,18 @@ export const routes: Route[] = [
         id: 2,
         title: 'AddMove',
         path: '/add-move',
-        element: AddMove
+        element: AddMovePage
     },
     {
         id: 3,
         title: 'ButtonModal',
         path: '/button-modal',
-        element: ButtonModal
+        element: ButtonModalPage
     },
     {
         id: 4,
         title: 'TwoLists',
         path: '/two-lists',
-        element: TwoLists
+        element: TwoListsPage
     }
 ];
